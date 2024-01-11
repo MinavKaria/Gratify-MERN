@@ -8,13 +8,13 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 
-function Post({ title, ind, creator, createdAt,tag,message,likeCount, setCurrentId,_id,setUpdatePost}) {
+function Post({ title, ind, creator, createdAt,tag,message,likeCount, setCurrentId,_id,setUpdatePost,post}) {
   return (
     <Card sx={{ minWidth: 300, backgroundColor: 'white',borderRadius:'15px'}} id={ind}>
       <CardMedia
         component="img"
         height="140"
-        image="https://mui.com/static/images/cards/contemplative-reptile.jpg"
+        src={post.selectedFile}
         alt="green iguana"
       />
       <div style={{ display: 'flex', justifyContent: 'space-between', marginTop:'10px',paddingLeft:'15px'}}>
@@ -26,8 +26,7 @@ function Post({ title, ind, creator, createdAt,tag,message,likeCount, setCurrent
         <div style={{ margin: '0'}}>
           <Button style={{ color: 'blue' }} size="small" sx={{ margin: 0, padding: 0 }} onClick={()=>{
             setCurrentId(_id)
-            setUpdatePost({title,creator,message,tag})
-            console.log(tag)
+            setUpdatePost({title,creator,message,tag,selectedFile:post.selectedFile})
           }}>
             <MoreHorizIcon size='md' />
           </Button>

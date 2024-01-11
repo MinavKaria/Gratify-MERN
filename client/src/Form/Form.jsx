@@ -15,6 +15,8 @@ import * as React from 'react';
 import top100Films from './tags';
 import { useAppContext } from '../App'
 import { useEffect } from 'react';
+import Dropzone from 'react-dropzone';
+import UploadIcon from '@mui/icons-material/Upload';
 
 
 function Form({currentId, setCurrentId,setUpdatePost,updatePost }) 
@@ -23,25 +25,56 @@ function Form({currentId, setCurrentId,setUpdatePost,updatePost })
 
   
   const [tagInput, setTags] = useState('');
+  const [fileName, setFileName] = useState('');
   const [postData, setPostData] = useState({
     creator: '', title: '', message: '', tags: [''], selectedFile: null,
   });
 
   
   useEffect(() => {
-    if (currentId !== null && updatePost) {
-      const { title, creator, message, tag } = updatePost;
+    if (currentId !== null && updatePost) 
+    {
+      console.log(currentId)
+      const { title, creator, message, tag,selectedFile } = updatePost;
       const tags = tag.join(',');
-      setPostData({ ...postData, creator, title, message });
+      setPostData({ ...postData, creator, title, message,selectedFile });
       setTags(tags);
     }
   }, [currentId, updatePost]);
+
+  const handleUpdate = async () => {
+    console.log(postData)
+    try
+    {
+      if(postData.creator === '' || postData.title === '' || postData.message === '' || postData.tags.length===0 || postData.selectedFile === null)
+      {
+        alert('Please fill all the fields');
+        return;
+      }
+      const response = await axios.patch(`http://localhost:3000/posts/${currentId}`, postData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      console.log(response)
+      setPostData({ creator: '', title: '', message: '', tags: [''], selectedFile: null });
+      setTags('');
+      setFileName('');
+      setCurrentId(null);
+      setUpdatePost(null);
+      updateOtherComponent();
+    }
+    catch(error)
+    {
+      console.log(error)
+    }
+  };
 
   const handleSubmit = async () => {
     console.log(postData)
     try
     {
-      if(postData.creator === '' || postData.title === '' || postData.message === '' || postData.tags.length===0)
+      if(postData.creator === '' || postData.title === '' || postData.message === '' || postData.tags.length===0 || postData.selectedFile === null)
       {
         alert('Please fill all the fields');
         return;
@@ -52,19 +85,14 @@ function Form({currentId, setCurrentId,setUpdatePost,updatePost })
         }
       });
       console.log(response)
+      setPostData({ creator: '', title: '', message: '', tags: [''], selectedFile: null });
+      setTags('');
+      setFileName('');
       
     }
     catch(error)
     {
       console.log(error)
-    }
-  };
-
-  const clearFileInput = () => {
-    setPostData({ ...postData, selectedFile: null });
-    const fileInput = document.getElementById('fileInput');
-    if (fileInput) {
-      fileInput.value = '';
     }
   };
 
@@ -123,13 +151,73 @@ function Form({currentId, setCurrentId,setUpdatePost,updatePost })
             value={tagInput}
           />
           
-          <div style={{marginBottom:'15px'}}>
-            <FileBase
+          <div style={{marginBottom:'15px', border:'1.5px solid lightgrey', borderRadius:'5px',padding:'5px'}}>
+            {/* <FileBase
               type="file"
               multiple={false}
               onDone={({ base64 }) => setPostData({ ...postData, selectedFile: base64 })}
               value={postData.selectedFile}
-            />
+            /> */}
+              <Dropzone onDrop={
+                (acceptedFiles,rejectFiles,event) => {
+                  event.preventDefault();
+                  console.log(acceptedFiles)
+                  
+                  const file=acceptedFiles[0];
+
+                  if (!file.type.startsWith('image/')) {
+                    alert('Not an image file');
+                    return;
+                  }
+
+                  
+                  const reader=new FileReader();
+                  
+                  console.log(reader)
+
+                  reader.onload = () => 
+                  {
+                    const base64Data = reader.result;
+                    setFileName(base64Data);
+                    setPostData({ ...postData, selectedFile: base64Data });
+                  };
+
+                  reader.readAsDataURL(file);
+                }}
+                
+                >
+                {({getRootProps, getInputProps}) => (
+                  <section>
+                    <div {...getRootProps()}>
+                      <input {...getInputProps()} />
+                      {
+                        fileName !== '' ? (
+                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', color: 'grey' }}>
+                          <img style={{ width: '200px' }} src={fileName} alt="Uploaded" />
+                          </div>
+                        ) : (
+                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', color: 'grey' }}>
+                        {
+                          postData.selectedFile ? (
+                            <img style={{ width: '200px' }} src={postData.selectedFile} alt="Uploaded" />
+                          ) : (
+                            <>
+                              <UploadIcon style={{ fontSize: '48px' }} />
+                              <p style={{ margin: '8px' }}>Upload or Drop the Image here</p>
+                            </>
+                          )
+                        }
+
+                           
+                            
+                          </div>
+                        )
+                      }
+    
+                    </div>
+                  </section>
+                )}
+            </Dropzone>
           </div>
           <Stack direction="column" spacing={2}>
 
@@ -137,10 +225,7 @@ function Form({currentId, setCurrentId,setUpdatePost,updatePost })
               console.log(postData)
               if(currentId!==null)
               {
-                setCurrentId(null);
-                setUpdatePost(null);
-                setPostData({creator: '', title: '', message: '', tags: '', selectedFile: null});
-                updateOtherComponent();
+                handleUpdate();
               }
               else
               {
@@ -155,6 +240,7 @@ function Form({currentId, setCurrentId,setUpdatePost,updatePost })
               setPostData({creator: '', title: '', message: '', tags: '', selectedFile: null});
               setCurrentId(null);
               setTags('');
+              setFileName('');
             }}><ClearIcon/>Clear</Button>
         </Stack>
         </form>
