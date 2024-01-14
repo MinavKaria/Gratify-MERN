@@ -37,7 +37,7 @@ function Form({currentId, setCurrentId,setUpdatePost,updatePost })
       console.log(currentId)
       const { title, creator, message, tag,selectedFile } = updatePost;
       const tags = tag.join(',');
-      setPostData({ ...postData, creator, title, message,selectedFile });
+      setPostData({ ...postData, creator, title, message,selectedFile,tags: tag });
       setTags(tags);
     }
   }, [currentId, updatePost]);
@@ -107,7 +107,7 @@ function Form({currentId, setCurrentId,setUpdatePost,updatePost })
       }}
       >
         <Typography variant="h5" align="center" sx={{ marginBottom: '20px', fontFamily: 'Arial, sans-serif' }}>
-          Creating a Memory
+          {currentId ? 'Update':'Submit'} a Post
         </Typography>
 
         <form onSubmit={(e) => {handleSubmit(),  e.preventDefault();}} autoComplete='off' noValidate >

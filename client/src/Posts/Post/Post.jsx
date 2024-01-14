@@ -6,9 +6,18 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import  Chip  from '@mui/material/Chip';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { handleDelete, likePost,unlikePost } from '../../api/index.js';
+import { useAppContext } from '../../App.jsx'
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import { set } from 'mongoose';
+import { useState } from 'react';
 
+function Post({ title, ind, creator, createdAt,tag,message,likeCount, setCurrentId,_id,setUpdatePost,post}) 
+{
+  const { updateOtherComponent } = useAppContext();
+  const [isLiked, setIsLiked] = useState(false);
+  const [like, setLike] = useState(likeCount);
 
-function Post({ title, ind, creator, createdAt,tag,message,likeCount, setCurrentId,_id,setUpdatePost,post}) {
   return (
     <Card sx={{ minWidth: 300, backgroundColor: 'white',borderRadius:'15px'}} id={ind}>
       <CardMedia
@@ -26,6 +35,7 @@ function Post({ title, ind, creator, createdAt,tag,message,likeCount, setCurrent
         <div style={{ margin: '0'}}>
           <Button style={{ color: 'blue' }} size="small" sx={{ margin: 0, padding: 0 }} onClick={()=>{
             setCurrentId(_id)
+            console.log({tag})
             setUpdatePost({title,creator,message,tag,selectedFile:post.selectedFile})
           }}>
             <MoreHorizIcon size='md' />
@@ -45,12 +55,39 @@ function Post({ title, ind, creator, createdAt,tag,message,likeCount, setCurrent
         </Typography>
       </CardContent>
       <CardActions sx={{display:'flex',justifyContent:'space-between',width:'100%',margin:'0'}}>
-        <Button size="small" color='primary' onClick={()=>{}}>
-          <ThumbUpOffAltIcon fontSize='small' sx={{marginRight:'5px'}}/>
-          Like &nbsp;
-          {likeCount}
+        <Button size="small" color='primary' onClick={()=>{
+          console.log(_id);
+          if(isLiked===true)
+          {
+            setLike(like-1);
+            unlikePost(_id);
+          }
+          else
+          {
+            setLike(like+1);
+            likePost(_id);
+          }
+          
+          setIsLiked(!isLiked);
+        }}>
+          
+          {isLiked ? 
+          <div style={{display:'flex',justifyContent:'space-between',width:'100%',margin:'0'}}>
+          <ThumbUpAltIcon fontSize='small' sx={{marginRight:'5px'}}/> 
+          Liked &nbsp; {like}
+          </div>: 
+          <div style={{display:'flex',justifyContent:'space-between',width:'100%',margin:'0'}}>
+            <ThumbUpOffAltIcon fontSize='small' sx={{marginRight:'5px'}}/>
+            Like &nbsp; {like}
+          </div>
+          }
+          
         </Button>
-        <Button size="small" color='primary' onClick={()=>{}}>
+        <Button size="small" color='primary' onClick={()=>{
+          console.log(_id);
+          handleDelete(_id);
+          updateOtherComponent();
+        }}>
           <DeleteIcon fontSize='small' sx={{marginRight:'5px'}}/>
           Delete
 

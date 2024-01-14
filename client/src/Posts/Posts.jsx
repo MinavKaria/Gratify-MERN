@@ -20,14 +20,22 @@ function Posts({setCurrentId, setUpdatePost, updatePost})
   {
     const fetchPosts = async () => 
     {
-      const { data } = await axios.get('http://localhost:3000/posts');
-      setPosts(data);
-      
+      try 
+      {
+        const { data } = await axios.get('http://localhost:3000/posts');
+        setPosts(data);
+      } 
+      catch (error) 
+      {
+        console.error('Error fetching posts:', error);
+      }
     };
-    
+
     setTimeout(() => {
       fetchPosts();
     }, 500);
+  
+  
   }, [isUpdated]);
 
 

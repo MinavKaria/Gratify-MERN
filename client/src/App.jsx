@@ -6,6 +6,7 @@ import Grow from '@mui/material/Grow';
 import Grid from '@mui/material/Grid';
 import memories from './images/memories.jpeg';
 import memories2 from './images/memories-removebg-preview.png';
+import logo from './images/logo.png';
 import Posts from './Posts/Posts';
 import Form from './Form/Form';
 import './App.css';
@@ -50,9 +51,9 @@ function App()
           <Typography variant="h2" align="center" sx={{
             color: 'rgba(0,183,255, 1)',
           }} >
-            Memories 
+            GratifyConnect
           </Typography>
-          <img src={memories2} alt="memories" style={{
+          <img src={logo} alt="memories" style={{
             marginLeft: '15px',
             width: '80px',
             height: '80px',
