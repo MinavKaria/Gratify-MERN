@@ -3,9 +3,12 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import postRoutes from './routes/posts.js';
+import dotenv from 'dotenv';
 
 const app = express();
-const port=3000;
+dotenv.config();
+const port=process.env.PORT || 3000;
+
 
 const corsOptions = {
     origin: 'http://localhost:5173',
@@ -23,7 +26,7 @@ app.use('/posts',postRoutes);
 
 
 
-const connection_url = "mongodb+srv://minavpkaria:minavkaria@cluster0.fjislfp.mongodb.net/";
+const connection_url = process.env.CONNECTION_URL;
 
 //connect to database
 try

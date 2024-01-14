@@ -10,6 +10,8 @@ import logo from './images/logo.png';
 import Posts from './Posts/Posts';
 import Form from './Form/Form';
 import './App.css';
+import theme from './theme';
+import { styles } from './styles';
 
 const AppContext = createContext();
 
@@ -40,41 +42,26 @@ function App()
   return (
     <AppProvider>
       <Container maxWidth="lg">
-        <AppBar position="static" color="inherit" sx={{
-          borderRadius: 15,
-          margin: '30px 0',
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-          <Typography variant="h2" align="center" sx={{
-            color: 'rgba(0,183,255, 1)',
-          }} >
+        <AppBar position="static" color="inherit" sx={styles.appBar}>
+          <Typography variant="h2" align="center" sx={styles.title}>
             GratifyConnect
           </Typography>
-          <img src={logo} alt="memories" style={{
-            marginLeft: '15px',
-            width: '80px',
-            height: '80px',
-            marginTop: '10px',
-          }}  draggable='false'/>
+          <img src={logo} alt="memories" style={styles.headingImage}  draggable='false'/>
         </AppBar>
         <Grow in>
           <Container>
-            <Grid container justify="space-between" alignItems="stretch" spacing={3}>
-              <Grid item xs={12} sm={12} md={9} lg={8}>
+            <Grid container justify="space-between" alignItems="stretch" spacing={3} 
+            sx={styles.MainContainer}
+            >
+              <Grid item xs={12} sm={12} md={12} lg={8}>
                 <Posts setCurrentId={setCurrentId} setUpdatePost={setUpdatePost}/>
               </Grid>
-              <Grid item xs={12} sm={0} md={3} lg={4}>
+              <Grid item xs={12} sm={0} md={0} lg={4}>
                 <Form  currentId={currentId} setCurrentId={setCurrentId} setUpdatePost={setUpdatePost} updatePost={updatePost}/>
               </Grid>
             </Grid>
           </Container>
         </Grow>
-        <div style={{height:100}}>
-
-        </div>
       </Container>
     </AppProvider>
   );

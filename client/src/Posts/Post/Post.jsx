@@ -9,24 +9,25 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { handleDelete, likePost,unlikePost } from '../../api/index.js';
 import { useAppContext } from '../../App.jsx'
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import { set } from 'mongoose';
 import { useState } from 'react';
+import { PostStyles } from '../../styles.jsx';
 
-function Post({ title, ind, creator, createdAt,tag,message,likeCount, setCurrentId,_id,setUpdatePost,post}) 
+function Post({ ind,tag,setCurrentId,setUpdatePost,post}) 
 {
+  const {title,creator, createdAt,message,likeCount,_id}=post;
   const { updateOtherComponent } = useAppContext();
   const [isLiked, setIsLiked] = useState(false);
   const [like, setLike] = useState(likeCount);
 
   return (
-    <Card sx={{ minWidth: 300, backgroundColor: 'white',borderRadius:'15px'}} id={ind}>
+    <Card sx={PostStyles.cardStyle} id={ind}>
       <CardMedia
         component="img"
         height="140"
         src={post.selectedFile}
         alt="green iguana"
       />
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop:'10px',paddingLeft:'15px'}}>
+      <div style={PostStyles.postStyle1}>
         <div>
           <Typography variant="h6" sx={{margin:'0',padding:0}}>{title}</Typography>
           <Typography variant="body2">{creator}</Typography>
@@ -74,11 +75,11 @@ function Post({ title, ind, creator, createdAt,tag,message,likeCount, setCurrent
           {isLiked ? 
           <div style={{display:'flex',justifyContent:'space-between',width:'100%',margin:'0'}}>
           <ThumbUpAltIcon fontSize='small' sx={{marginRight:'5px'}}/> 
-          Liked &nbsp; {like}
+          &nbsp;Liked &nbsp; {like}
           </div>: 
           <div style={{display:'flex',justifyContent:'space-between',width:'100%',margin:'0'}}>
             <ThumbUpOffAltIcon fontSize='small' sx={{marginRight:'5px'}}/>
-            Like &nbsp; {like}
+            &nbsp; Like &nbsp; {like}
           </div>
           }
           
