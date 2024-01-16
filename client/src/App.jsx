@@ -7,11 +7,15 @@ import Grid from '@mui/material/Grid';
 import memories from './images/memories.jpeg';
 import memories2 from './images/memories-removebg-preview.png';
 import logo from './images/logo.png';
-import Posts from './Posts/Posts';
-import Form from './Form/Form';
+import Posts from './components/Posts/Posts';
+import Form from './components/Form/Form';
 import './App.css';
 import theme from './theme';
 import { styles } from './styles';
+import Navbar from './components/Navbar';
+import {BrowserRouter, Route,Routes} from 'react-router-dom';
+import Home from './components/Home';
+import Auth from './components/Auth';
 
 const AppContext = createContext();
 
@@ -42,26 +46,13 @@ function App()
   return (
     <AppProvider>
       <Container maxWidth="lg">
-        <AppBar position="static" color="inherit" sx={styles.appBar}>
-          <Typography variant="h2" align="center" sx={styles.title}>
-            GratifyConnect
-          </Typography>
-          <img src={logo} alt="memories" style={styles.headingImage}  draggable='false'/>
-        </AppBar>
-        <Grow in>
-          <Container>
-            <Grid container justify="space-between" alignItems="stretch" spacing={3} 
-            sx={styles.MainContainer}
-            >
-              <Grid item xs={12} sm={12} md={12} lg={8}>
-                <Posts setCurrentId={setCurrentId} setUpdatePost={setUpdatePost}/>
-              </Grid>
-              <Grid item xs={12} sm={0} md={0} lg={4}>
-                <Form  currentId={currentId} setCurrentId={setCurrentId} setUpdatePost={setUpdatePost} updatePost={updatePost}/>
-              </Grid>
-            </Grid>
-          </Container>
-        </Grow>
+        <Navbar/>
+
+        <Routes>
+          <Route path="/" element={<Home currentId={currentId} updatePost={updatePost} setCurrentId={setCurrentId} setUpdatePost={setUpdatePost}/>} />
+          <Route path="/auth" element={<Auth/>} />
+        </Routes>
+        
       </Container>
     </AppProvider>
   );

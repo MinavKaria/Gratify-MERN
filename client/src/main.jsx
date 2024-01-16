@@ -5,6 +5,7 @@ import './index.css';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import theme from './theme.jsx'; 
 import { AppProvider } from './App.jsx';
+import { BrowserRouter } from 'react-router-dom';
 
 document.body.style.backgroundImage = theme.palette.bodyBackgroundImage;
 document.body.style.backgroundColor = theme.palette.backgroundColoring;
@@ -18,7 +19,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <AppProvider>
-          <App />
+        <BrowserRouter>
+         <App />
+        </BrowserRouter>
         </AppProvider>
       </ThemeProvider>
   </React.StrictMode>

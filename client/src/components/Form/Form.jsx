@@ -13,7 +13,7 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import axios from 'axios';
 import * as React from 'react';
 import top100Films from './tags';
-import { useAppContext } from '../App'
+import { useAppContext } from '../../App'
 import { useEffect } from 'react';
 import Dropzone from 'react-dropzone';
 import UploadIcon from '@mui/icons-material/Upload';

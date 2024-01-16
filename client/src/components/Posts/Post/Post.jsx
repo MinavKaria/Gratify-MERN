@@ -6,11 +6,11 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import  Chip  from '@mui/material/Chip';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { handleDelete, likePost,unlikePost } from '../../api/index.js';
-import { useAppContext } from '../../App.jsx'
+import { handleDelete, likePost,unlikePost } from '../../../api/index.js';
+import { useAppContext } from '../../../App.jsx'
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import { useState } from 'react';
-import { PostStyles } from '../../styles.jsx';
+import { PostStyles } from '../../../styles.jsx';
 
 function Post({ ind,tag,setCurrentId,setUpdatePost,post}) 
 {
