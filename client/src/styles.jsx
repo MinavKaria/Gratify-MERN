@@ -8,21 +8,30 @@ export const styles = {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
+        height: '90px',
+      },
+      homeButton:{
+        padding:'0px',
+        margin:'0px',
+        height: "90px"
       },
       title:{
         color: 'rgba(0,183,255, 1)',
         fontSize: {
-          xs: '2rem',
-          sm: '3rem',
-          md: '4rem',
-          lg: '5rem',
+          xs: '1rem',
+          sm: '2rem',
+          md: '3rem',
+          lg: '3rem',
         },
+      },
+      loginButton:{
+        justifySelf:'flex-end',
       },
       headingImage:{
         marginLeft: '15px',
-        width: '80px',
-        height: '80px',
-        marginTop: '10px',
+        width: '150px',
+        height: '150px',
+        
       },
       MainContainer:{
         [theme.breakpoints.down('sm')]: 

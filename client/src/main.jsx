@@ -7,12 +7,7 @@ import theme from './theme.jsx';
 import { AppProvider } from './App.jsx';
 import { BrowserRouter } from 'react-router-dom';
 
-document.body.style.backgroundImage = theme.palette.bodyBackgroundImage;
-document.body.style.backgroundColor = theme.palette.backgroundColoring;
-document.body.style.backgroundSize = theme.palette.backgroundSizing;
-document.body.style.backgroundRepeat = theme.palette.backgroundRepeating;
-document.body.style.backgroundPosition = theme.palette.backgroundPositioning;
-console.log(theme.palette.backgroundColoring);
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

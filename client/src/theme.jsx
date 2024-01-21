@@ -5,8 +5,6 @@ const theme = createTheme({
     primary: {
       main: '#1976D2',
     },
-    bodyBackgroundImage: 'url("https://wallpapercave.com/wp/wp3284848.gif")',
-    backgroundColoring: '#00a1a1',
     backgroundSizing: 'cover',
     backgroundRepeating: 'no-repeat',
     backgroundPositioning: 'center',

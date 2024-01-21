@@ -6,6 +6,7 @@ import { styles } from '../styles';
 import { Avatar, Button, Toolbar } from '@mui/material';
 import { Link } from 'react-router-dom';
 
+
 function Navbar() 
 {
   const user=null;
@@ -18,10 +19,9 @@ function Navbar()
           justifyContent:'center',
           alignItems:'center'
         }}>
-          <Typography variant="h2" align="center" sx={styles.title}>
-            GratifyConnect
-          </Typography>
+          <Button component={Link} to='/' sx={styles.homeButton}>
           <img src={logo} alt="memories" style={styles.headingImage}  draggable='false'/>
+          </Button>
         </div>
         <Toolbar>
             {user ? (
@@ -37,8 +37,10 @@ function Navbar()
                 </Button>
               </div>
             ) : (
-              <div>
-                <Button component={Link} to='/auth' variant='contained' color='primary'>
+              <div style={{
+                margin:'auto'
+              }}>
+                <Button component={Link} to='/auth' variant='contained' color='primary' sx={styles.loginButton}>
                   Sign In
                 </Button>
               </div>

@@ -15,7 +15,7 @@ import { styles } from './styles';
 import Navbar from './components/Navbar';
 import {BrowserRouter, Route,Routes} from 'react-router-dom';
 import Home from './components/Home';
-import Auth from './components/Auth';
+import Auth from './components/Auth/Auth';
 
 const AppContext = createContext();
 
