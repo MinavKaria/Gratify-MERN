@@ -6,7 +6,7 @@ export const styles = {
         margin: '30px 0',
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'center',
         height: '90px',
       },
@@ -28,7 +28,6 @@ export const styles = {
         justifySelf:'flex-end',
       },
       headingImage:{
-        marginLeft: '15px',
         width: '150px',
         height: '150px',
         

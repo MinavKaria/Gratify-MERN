@@ -5,22 +5,23 @@ import { useState } from 'react';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
-
-
-
+import { useAppContext } from '../../App';
 
 
 function Auth() 
+
 {
   const [showPassword,setShowPassword]=useState(false);
   const [isSignup,setIsSignup]=useState(true);
+  const { login } = useAppContext();
   const handleGoogleLoginSuccess = (credentialResponse) => {
     console.log(credentialResponse);
 
-    const user=credentialResponse.credential;
+    const user = credentialResponse.credential;
     const decoded = jwtDecode(user);
-    console.log(decoded);
+    login(decoded);
 
+    localStorage.setItem('decoded', JSON.stringify(decoded));
   };
 
   const handleGoogleLoginError = () => {
@@ -67,7 +68,7 @@ function Auth()
             handleShowPassword={()=>{
               setShowPassword((prevShowPassword)=>!prevShowPassword);
             }}/>
-            
+
             {isSignup &&<Input name="confirmpassword" label="Confirm Password" handleChange={()=>{}} type={showPassword ? 'text':'password'}/>}
           </Grid>
           <div style={{
@@ -78,7 +79,7 @@ function Auth()
               onSuccess={handleGoogleLoginSuccess}
               onError={handleGoogleLoginError}
               size='large'
-             
+              
 
             />
             </div>

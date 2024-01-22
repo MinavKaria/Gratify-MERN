@@ -23,17 +23,34 @@ export const useAppContext = () => useContext(AppContext);
 
 export const AppProvider = ({ children }) => {
   const [isUpdated, setIsUpdated] = useState(false);
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
+  const [isLogin, setIsLogin] = useState(false);
+
+  const logout = () => {
+    setUser(null);
+    setIsLogin(false);
+    localStorage.clear();
+  }
+
+  const login = (user) => {
+    setUser(user);
+    setIsLogin(true);
+    console.log(user);
+    localStorage.setItem('profile', JSON.stringify(user));
+  }
 
   const updateOtherComponent = () => {
     setIsUpdated(isUpdated => !isUpdated);
   };
 
   return (
-    <AppContext.Provider value={{ isUpdated, updateOtherComponent }}>
+    <AppContext.Provider value={{ isUpdated, updateOtherComponent, user, setUser, logout, login, isLogin, setIsLogin}}>
       {children}
     </AppContext.Provider>
   );
 };
+
+
 
 
 

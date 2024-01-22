@@ -5,36 +5,50 @@ import logo from '../images/logo.png';
 import { styles } from '../styles';
 import { Avatar, Button, Toolbar } from '@mui/material';
 import { Link } from 'react-router-dom';
-
+import { useAppContext } from '../App';
 
 function Navbar() 
 {
-  const user=null;
+  const { user } = useAppContext();
+  console.log(user);
   return (
     <>
         <AppBar position="static" color="inherit" sx={styles.appBar}>
-        <div style={{
-          display:'flex',
-          flexDirection:'row',
-          justifyContent:'center',
-          alignItems:'center'
-        }}>
+         <div style={{
+            width: user==null?"10%":'33%',
+          }}></div>
+        <div>
           <Button component={Link} to='/' sx={styles.homeButton}>
-          <img src={logo} alt="memories" style={styles.headingImage}  draggable='false'/>
+            <img src={logo} alt="memories" style={styles.headingImage}  draggable='false'/>
           </Button>
         </div>
         <Toolbar>
             {user ? (
               <div>
-                <Avatar alt={user.result.name} src={user.result.imageUrl}>{user.result.name.charAt(0)}</Avatar>
+                {user!=null && 
+                (
+                  <div style={{
+                    display:'flex',
+                    flexDirection:'row',
+                    alignItems:'center',
+                    gap:'10px'
+                  }}>
+                <Avatar alt={user.family_name} src={user.picture}>{user.family_name.charAt(0)}</Avatar>
                 <Typography variant="h6" sx={{marginLeft:'10px'}}>
-                  {user.result.name}
+                  {user.name}
                 </Typography>
                 <Button variant='contained'
                 color='secondary'
+                onClick={() => {
+                  localStorage.clear();
+                  window.location.reload();
+                }}
                 >
                   Logout
                 </Button>
+                </div>
+                )
+                }
               </div>
             ) : (
               <div style={{
