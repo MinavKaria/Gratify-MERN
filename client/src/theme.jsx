@@ -16,20 +16,7 @@ const theme = createTheme({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  overrides: {
-    MuiCssBaseline: {
-      '@global': {
-        body: {
-          backgroundImage: 'url("https://wallpapercave.com/wp/wp3284848.gif")',
-          backgroundColor: '#00a1a1',
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
-        },
-      },
-    },
-  },
+  }
 });
 
 export default theme;

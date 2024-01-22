@@ -22,12 +22,14 @@ import UploadIcon from '@mui/icons-material/Upload';
 function Form({currentId, setCurrentId,setUpdatePost,updatePost }) 
 {
   const { updateOtherComponent } = useAppContext();
-
+  const {isLogin} = useAppContext();
+  console.log(isLogin)
+  const {user} = useAppContext();
   
   const [tagInput, setTags] = useState('');
   const [fileName, setFileName] = useState('');
   const [postData, setPostData] = useState({
-    creator: '', title: '', message: '', tags: [''], selectedFile: null,
+    creator: (user==null ? '':user.name), title: '', message: '', tags: [''], selectedFile: null,
   });
 
   
@@ -85,7 +87,7 @@ function Form({currentId, setCurrentId,setUpdatePost,updatePost })
         }
       });
       console.log(response)
-      setPostData({ creator: '', title: '', message: '', tags: [''], selectedFile: null });
+      setPostData({ creator: (user==null ? '':user.name), title: '', message: '', tags: [''], selectedFile: null });
       setTags('');
       setFileName('');
       
@@ -107,7 +109,8 @@ function Form({currentId, setCurrentId,setUpdatePost,updatePost })
       }}
       >
         <Typography variant="h5" align="center" sx={{ marginBottom: '20px', fontFamily: 'Arial, sans-serif' }}>
-          {currentId ? 'Update':'Submit'} a Post
+            {!isLogin ? 'Please Login to Create Post' : (currentId ? 'Update' : 'Submit') + ' a Post'}
+          
         </Typography>
 
         <form onSubmit={(e) => {handleSubmit(),  e.preventDefault();}} autoComplete='off' noValidate >
@@ -116,9 +119,11 @@ function Form({currentId, setCurrentId,setUpdatePost,updatePost })
             variant="outlined"
             label="Creator"
             fullWidth
-            sx={{ marginBottom: '10px' }}
+            sx={{ marginBottom: '10px',display:'none' }}
             onChange={(e) => setPostData({ ...postData, creator: e.target.value })}
             value={postData.creator}
+            disabled={!isLogin}
+      
           />
           <TextField
             name="title"
@@ -128,6 +133,7 @@ function Form({currentId, setCurrentId,setUpdatePost,updatePost })
             sx={{ marginBottom: '10px' }}
             onChange={(e) => setPostData({ ...postData, title: e.target.value })}
             value={postData.title}
+            disabled={!isLogin}
           />
           <TextField
             name="message"
@@ -137,6 +143,7 @@ function Form({currentId, setCurrentId,setUpdatePost,updatePost })
             sx={{ marginBottom: '10px' }}
             onChange={(e) => setPostData({ ...postData, message: e.target.value })}
             value={postData.message}
+            disabled={!isLogin}
           />
           <TextField
             name="tags"
@@ -149,6 +156,7 @@ function Form({currentId, setCurrentId,setUpdatePost,updatePost })
               setTags(e.target.value);
             }}
             value={tagInput}
+            disabled={!isLogin}
           />
           
           <div style={{marginBottom:'15px', border:'1.5px solid lightgrey', borderRadius:'5px',padding:'5px'}}>
@@ -184,7 +192,7 @@ function Form({currentId, setCurrentId,setUpdatePost,updatePost })
 
                   reader.readAsDataURL(file);
                 }}
-                
+                disabled={!isLogin}
                 >
                 {({getRootProps, getInputProps}) => (
                   <section>
@@ -237,7 +245,7 @@ function Form({currentId, setCurrentId,setUpdatePost,updatePost })
             </Button>
 
             <Button variant="contained" sx={{height:'30px'}} onClick={()=>{
-              setPostData({creator: '', title: '', message: '', tags: '', selectedFile: null});
+              setPostData({creator: (user==null ? '':user.name), title: '', message: '', tags: '', selectedFile: null});
               setCurrentId(null);
               setTags('');
               setFileName('');

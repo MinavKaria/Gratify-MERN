@@ -6,30 +6,34 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
 import { useAppContext } from '../../App';
+import { googleLogout } from '@react-oauth/google';
+import { useNavigate } from 'react-router-dom';
 
 
 function Auth() 
-
 {
+
   const [showPassword,setShowPassword]=useState(false);
   const [isSignup,setIsSignup]=useState(true);
   const { login } = useAppContext();
+  const navigate = useNavigate();
   const handleGoogleLoginSuccess = (credentialResponse) => {
     console.log(credentialResponse);
-
     const user = credentialResponse.credential;
     const decoded = jwtDecode(user);
     login(decoded);
-
     localStorage.setItem('decoded', JSON.stringify(decoded));
+    navigate('/');
   };
+
+ 
 
   const handleGoogleLoginError = () => {
     console.log('Login Failed');
   };
 
   return (
-    <GoogleOAuthProvider clientId="1024591027781-a3ehovvoaa1q16955nk1qsa5uruu1pic.apps.googleusercontent.com">
+
     <Container component="main" maxWidth='xs'>
       <Paper sx={{
         marginTop:'10px',
@@ -75,13 +79,14 @@ function Auth()
             marginTop:'10px'
           }}>
           <GoogleLogin
-              clientId="1024591027781-a3ehovvoaa1q16955nk1qsa5uruu1pic.apps.googleusercontent.com"
+             
               onSuccess={handleGoogleLoginSuccess}
               onError={handleGoogleLoginError}
               size='large'
-              
+              text='signup_with'
 
             />
+
             </div>
           <Button type="submit" fullWidth variant="contained" color="primary" 
           sx={{
@@ -109,7 +114,6 @@ function Auth()
         </form>
       </Paper>
     </Container>
-    </GoogleOAuthProvider>
   )
 }
 

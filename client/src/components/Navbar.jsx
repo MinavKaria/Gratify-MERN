@@ -10,7 +10,7 @@ import { useAppContext } from '../App';
 function Navbar() 
 {
   const { user } = useAppContext();
-  console.log(user);
+  const { logout } = useAppContext();
   return (
     <>
         <AppBar position="static" color="inherit" sx={styles.appBar}>
@@ -41,7 +41,7 @@ function Navbar()
                 color='secondary'
                 onClick={() => {
                   localStorage.clear();
-                  window.location.reload();
+                  logout();
                 }}
                 >
                   Logout

@@ -11,6 +11,10 @@ import { useAppContext } from '../../../App.jsx'
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import { useState } from 'react';
 import { PostStyles } from '../../../styles.jsx';
+import Popover from '@mui/material/Popover';
+import Grid from '@mui/material/Grid';
+import Container from '@mui/material/Container';
+
 
 function Post({ ind,tag,setCurrentId,setUpdatePost,post}) 
 {
@@ -18,6 +22,18 @@ function Post({ ind,tag,setCurrentId,setUpdatePost,post})
   const { updateOtherComponent } = useAppContext();
   const [isLiked, setIsLiked] = useState(false);
   const [like, setLike] = useState(likeCount);
+  const [anchorEl, setAnchorEl] = useState(null);
+  
+  const handleClick = (event) => {
+   
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
 
   return (
     <Card sx={PostStyles.cardStyle} id={ind}>
@@ -84,15 +100,42 @@ function Post({ ind,tag,setCurrentId,setUpdatePost,post})
           }
           
         </Button>
-        <Button size="small" color='primary' onClick={()=>{
+        <Button  aria-describedby={id} size="small" color='primary' onClick={(event)=>{
           console.log(_id);
-          handleDelete(_id);
-          updateOtherComponent();
+          setAnchorEl(event.currentTarget);
+          // handleDelete(_id);
+          // updateOtherComponent();
         }}>
           <DeleteIcon fontSize='small' sx={{marginRight:'5px'}}/>
           Delete
 
         </Button>
+        <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        sx={{display:'absolute'}}
+      >
+        <Container sx={{ p: 2 }}>
+          Are you sure you want to delete this post?
+          <br />
+          <br />
+          <Grid spacing={2}>
+          <Button variant='contained' onClick={()=>{
+            handleDelete(_id);
+            updateOtherComponent();
+          }}>Yes</Button>
+          <Button onClick={()=>{
+            handleClose();
+          }}>No</Button>
+          </Grid>
+        </Container>
+      </Popover>
       </CardActions>
     </Card>
   );

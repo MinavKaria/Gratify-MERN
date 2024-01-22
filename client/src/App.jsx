@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
 import AppBar from '@mui/material/AppBar';
 import Typography from '@mui/material/Typography';
@@ -16,6 +16,7 @@ import Navbar from './components/Navbar';
 import {BrowserRouter, Route,Routes} from 'react-router-dom';
 import Home from './components/Home';
 import Auth from './components/Auth/Auth';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const AppContext = createContext();
 
@@ -28,14 +29,20 @@ export const AppProvider = ({ children }) => {
 
   const logout = () => {
     setUser(null);
-    setIsLogin(false);
     localStorage.clear();
   }
 
+  useEffect(() => {
+    if (user!=null) {
+      setIsLogin(true);
+    }else
+    {
+      setIsLogin(false);
+    }
+  }, [user]);
+
   const login = (user) => {
     setUser(user);
-    setIsLogin(true);
-    console.log(user);
     localStorage.setItem('profile', JSON.stringify(user));
   }
 
@@ -62,6 +69,7 @@ function App()
   });
   return (
     <AppProvider>
+          <GoogleOAuthProvider clientId="1024591027781-a3ehovvoaa1q16955nk1qsa5uruu1pic.apps.googleusercontent.com">
       <Container maxWidth="lg">
         <Navbar/>
 
@@ -71,6 +79,7 @@ function App()
         </Routes>
         
       </Container>
+      </GoogleOAuthProvider>
     </AppProvider>
   );
 }
