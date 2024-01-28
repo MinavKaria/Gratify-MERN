@@ -4,6 +4,10 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import postRoutes from './routes/posts.js';
 import dotenv from 'dotenv';
+import User from "./models/postUser.js";
+import argon2 from 'argon2';
+import jwt from 'jsonwebtoken';
+import { createNewUser, signInUser } from './controllers/user.js';
 
 const app = express();
 dotenv.config();
@@ -38,6 +42,10 @@ catch(err)
 {
     console.log(err)
 }
+
+
+app.post('/signUp',createNewUser);
+app.post('/signIn',signInUser);
 
 
 app.listen(port,()=>{

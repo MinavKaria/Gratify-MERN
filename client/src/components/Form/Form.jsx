@@ -7,7 +7,6 @@ import  Chip  from '@mui/material/Chip';
 import { Autocomplete } from '@mui/material'
 import { Box } from '@mui/system'
 import {useState} from 'react'
-import FileBase from 'react-file-base64';
 import ClearIcon from '@mui/icons-material/Clear';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import axios from 'axios';
@@ -23,7 +22,6 @@ function Form({currentId, setCurrentId,setUpdatePost,updatePost })
 {
   const { updateOtherComponent } = useAppContext();
   const {isLogin} = useAppContext();
-  console.log(isLogin)
   const {user} = useAppContext();
   
   const [tagInput, setTags] = useState('');
@@ -53,9 +51,12 @@ function Form({currentId, setCurrentId,setUpdatePost,updatePost })
         alert('Please fill all the fields');
         return;
       }
+      const token = localStorage.getItem('token');
+      
       const response = await axios.patch(`http://localhost:3000/posts/${currentId}`, postData, {
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         }
       });
       console.log(response)
@@ -81,9 +82,11 @@ function Form({currentId, setCurrentId,setUpdatePost,updatePost })
         alert('Please fill all the fields');
         return;
       }
+      const token = localStorage.getItem('token');
       const response = await axios.post('http://localhost:3000/posts', postData, {
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         }
       });
       console.log(response)

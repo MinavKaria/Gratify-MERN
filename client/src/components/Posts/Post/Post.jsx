@@ -6,7 +6,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import  Chip  from '@mui/material/Chip';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { handleDelete, likePost,unlikePost } from '../../../api/index.js';
+import { handleDelete, likePost } from '../../../api/index.js';
 import { useAppContext } from '../../../App.jsx'
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import { useState } from 'react';
@@ -77,7 +77,7 @@ function Post({ ind,tag,setCurrentId,setUpdatePost,post})
           if(isLiked===true)
           {
             setLike(like-1);
-            unlikePost(_id);
+            likePost(_id);
           }
           else
           {
@@ -125,7 +125,7 @@ function Post({ ind,tag,setCurrentId,setUpdatePost,post})
           Are you sure you want to delete this post?
           <br />
           <br />
-          <Grid spacing={2}>
+          <Grid >
           <Button variant='contained' onClick={()=>{
             handleDelete(_id);
             updateOtherComponent();

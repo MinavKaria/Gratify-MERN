@@ -33,7 +33,7 @@ function Navbar()
                     alignItems:'center',
                     gap:'10px'
                   }}>
-                <Avatar alt={user.family_name} src={user.picture}>{user.family_name.charAt(0)}</Avatar>
+                <Avatar alt={user.family_name} src={user.picture}>{user.name.charAt(0)}</Avatar>
                 <Typography variant="h6" sx={{marginLeft:'10px'}}>
                   {user.name}
                 </Typography>

@@ -49,6 +49,7 @@ export const updatePost=async (req,res)=>{
 
 export const deletePost=async (req,res)=>{
     const {id}=req.params;
+    console.log('Delete Request');
     if(!mongoose.Types.ObjectId.isValid(id))
     {
         return res.status(404).send("No post with that id");
@@ -61,28 +62,33 @@ export const deletePost=async (req,res)=>{
 export const likePost=async (req,res)=>{
     const {id}=req.params;
 
+    if(!req.userId)
+    {
+        return res.json({message:"Unauthenticated"});
+    }
+
     if(!mongoose.Types.ObjectId.isValid(id))
     {
         return res.status(404).send("No post with that id");
     }
 
     const post=await PostMessage.findById(id);
+
+    const index=post.likes.findIndex((id)=>id===String(req.userId));
+
+    if(index===-1)
+    {
+        post.likes.push(req.userId);
+    }
+    else
+    {
+        post.likes=post.likes.filter((id)=>id!==String(req.userId));
+    }
+
+
     const updatePost=await PostMessage.findByIdAndUpdate(id,{likeCount:post.likeCount+1},{new:true});
 
     res.json(updatePost);
 };
 
-export const unlikePost=async (req,res)=>{
-    const {id}=req.params;
-
-    if(!mongoose.Types.ObjectId.isValid(id))
-    {
-        return res.status(404).send("No post with that id");
-    }
-
-    const post=await PostMessage.findById(id);
-    const updatePost=await PostMessage.findByIdAndUpdate(id,{likeCount:post.likeCount-1},{new:true});
-
-    res.json(updatePost);
-}
 
