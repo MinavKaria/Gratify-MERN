@@ -5,7 +5,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { useAppContext } from '../../App'
-
+import fetchPosts from '../../api'
   
 
 
@@ -17,21 +17,10 @@ function Posts({setCurrentId, setUpdatePost, updatePost})
 
   useEffect(() => 
   {
-    const fetchPosts = async () => 
-    {
-      try 
-      {
-        const { data } = await axios.get('http://localhost:3000/posts');
-        setPosts(data);
-      } 
-      catch (error) 
-      {
-        console.error('Error fetching posts:', error);
-      }
-    };
 
-    setTimeout(() => {
-      fetchPosts();
+    setTimeout(async () => {
+      const {data}=await fetchPosts();
+      setPosts(data);
     }, 500);
   
   

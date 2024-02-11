@@ -16,13 +16,16 @@ import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 
 
+
 function Post({ ind,tag,setCurrentId,setUpdatePost,post}) 
 {
   const {title,creator, createdAt,message,likeCount,_id}=post;
   const { updateOtherComponent } = useAppContext();
+  const {isLogin} = useAppContext();
   const [isLiked, setIsLiked] = useState(false);
   const [like, setLike] = useState(likeCount);
   const [anchorEl, setAnchorEl] = useState(null);
+  console.log("isLogined"+isLogin);
   
   const handleClick = (event) => {
    
@@ -72,30 +75,37 @@ function Post({ ind,tag,setCurrentId,setUpdatePost,post})
         </Typography>
       </CardContent>
       <CardActions sx={{display:'flex',justifyContent:'space-between',width:'100%',margin:'0'}}>
-        <Button size="small" color='primary' onClick={()=>{
-          console.log(_id);
+        <Button size="small" color='primary' disabled={!isLogin} onClick={()=>{
+         
+        
+          const data=localStorage.getItem('profile');
+          const uniqueID=JSON.parse(data).sub;
+          console.log(uniqueID);
+
+          
+     
           if(isLiked===true)
           {
             setLike(like-1);
-            likePost(_id);
+            likePost(_id,uniqueID);
           }
           else
           {
             setLike(like+1);
-            likePost(_id);
+            likePost(_id,uniqueID);
           }
-          
+            
           setIsLiked(!isLiked);
         }}>
           
           {isLiked ? 
           <div style={{display:'flex',justifyContent:'space-between',width:'100%',margin:'0'}}>
           <ThumbUpAltIcon fontSize='small' sx={{marginRight:'5px'}}/> 
-          &nbsp;Liked &nbsp; {like}
+          &nbsp;Liked &nbsp; {like.length}
           </div>: 
           <div style={{display:'flex',justifyContent:'space-between',width:'100%',margin:'0'}}>
             <ThumbUpOffAltIcon fontSize='small' sx={{marginRight:'5px'}}/>
-            &nbsp; Like &nbsp; {like}
+            &nbsp; Like &nbsp; {like.length}
           </div>
           }
           

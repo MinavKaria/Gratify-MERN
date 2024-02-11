@@ -8,6 +8,7 @@ API.interceptors.request.use((req) => {
       req.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
     }
     
+    console.log('From the interceptor');
     console.log(req);
     return req;
   });
@@ -15,9 +16,10 @@ API.interceptors.request.use((req) => {
 const fetchPosts = async () => {
     try 
     {
+        console.log("Fetch Request 2")
         const response = await API.get('/posts');
-        console.log(response.data);
-        return response.data;
+        console.log(response);
+        return response;
     } 
     catch (error) 
     {
@@ -42,19 +44,20 @@ const handleDelete= async (id) => {
     }
 }
 
-const likePost=async (id)=>{
-    try
-    {
-        const response=await API.patch(`posts/${id}/likePost`);
-        console.log(response.data);
+const likePost = async (id,Patchdata) => {
+    try {
+        console.log('Like Post Request:', id, Patchdata)
+        const response = await API.patch(`posts/${id}/likePost`,{
+            Patchdata:Patchdata
+        });
+        console.log('Like Post Success:', response.data);
         return response.data;
-    }
-    catch(error)
-    {
-        console.log(error);
+    } catch (error) {
+        console.error('Like Post Error:', error);
         throw error;
     }
-}
+};
+
 
 
 const signInUser=async (formData)=>{
